@@ -1,15 +1,16 @@
 {
   "name": "ai-product-description-generator",
   "version": "1.0.0",
-  "type": "module",
+  "description": "AI tool generate product description",
   "main": "server.js",
+  "type": "module",
   "scripts": {
     "start": "node server.js"
   },
+  "author": "",
+  "license": "ISC",
   "dependencies": {
-    "@google/generative-ai": "^0.24.1",
     "express": "^4.19.2",
-    "groq-sdk": "^1.1.1",
-    "openai": "^4.56.0"
+    "groq-sdk": "^0.5.0"
   }
 }
