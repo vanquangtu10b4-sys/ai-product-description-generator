@@ -1,10 +1,18 @@
 import express from "express";
 import Groq from "groq-sdk";
+import path from "path";
+import { fileURLToPath } from "url";
 
 const app = express();
 
 app.use(express.json());
-app.use(express.static("public"));
+
+// fix __dirname for ES module
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// serve static html
+app.use(express.static(path.join(__dirname, "public")));
 
 const groq = new Groq({
     apiKey: process.env.GROQ_API_KEY
@@ -16,19 +24,28 @@ app.post("/generate", async (req, res) => {
 
         const { product } = req.body;
 
-        const prompt = `Write a short product description for: ${product}`;
+        const prompt = `
+Write a short and attractive product description for:
+${product}
 
-        const chatCompletion = await groq.chat.completions.create({
+Include:
+- key features
+- benefits
+- marketing tone
+- around 80 words
+`;
+
+        const completion = await groq.chat.completions.create({
             messages: [
                 {
                     role: "user",
                     content: prompt
                 }
             ],
-            model: "llama3-8b-8192"
+            model: "llama-3.1-8b-instant"
         });
 
-        const text = chatCompletion.choices[0].message.content;
+        const text = completion.choices[0].message.content;
 
         res.json({ text });
 
@@ -37,7 +54,7 @@ app.post("/generate", async (req, res) => {
         console.error(error);
 
         res.status(500).json({
-            text: "Error generating description"
+            text: error.message
         });
 
     }
