@@ -1,0 +1,154 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI Product Description Generator</title>
+
+    <style>
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f7fb;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: auto;
+            margin-top: 80px;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 10px;
+        }
+
+        p {
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        input {
+            width: 80%;
+            padding: 12px;
+            font-size: 16px;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+
+        button {
+            background: #4f46e5;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 16px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+            button:hover {
+                background: #4338ca;
+            }
+
+        #result {
+            margin-top: 30px;
+            text-align: left;
+            background: #fafafa;
+            padding: 20px;
+            border-radius: 8px;
+            min-height: 60px;
+        }
+
+        .loader {
+            display: none;
+            margin-top: 20px;
+            color: #666;
+        }
+    </style>
+
+</head>
+
+
+<body>
+
+    <div class="container">
+
+        <h1>AI Product Description Generator</h1>
+
+        <p>Generate product descriptions instantly using AI.</p>
+
+        <input id="productInput"
+               placeholder="Enter product name (example: Wireless Earbuds)">
+
+        <br>
+
+        <button onclick="generateDescription()">
+            Generate Description
+        </button>
+
+        <div class="loader" id="loading">
+            Generating with AI...
+        </div>
+
+        <div id="result"></div>
+
+    </div>
+
+
+
+    <script>
+
+        async function generateDescription() {
+
+            const product = document.getElementById("productInput").value
+
+            if (!product) {
+                alert("Please enter a product name")
+                return
+            }
+
+            document.getElementById("loading").style.display = "block"
+            document.getElementById("result").innerHTML = ""
+
+            try {
+
+                const response = await fetch("/generate", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        product: product
+                    })
+                })
+
+                const data = await response.json()
+
+                document.getElementById("loading").style.display = "none"
+
+                document.getElementById("result").innerHTML = data.text
+
+            } catch (err) {
+
+                document.getElementById("loading").style.display = "none"
+
+                document.getElementById("result").innerHTML = "Error generating description."
+
+            }
+
+        }
+
+    </script>
+
+
+</body>
+</html>
