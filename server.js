@@ -9,12 +9,13 @@ app.use(express.static("public"));
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 app.post("/generate", async (req, res) => {
+
     try {
 
         const { product } = req.body;
 
         const model = genAI.getGenerativeModel({
-            model: "gemini-1.5-flash"
+            model: "gemini-2.0-flash"
         });
 
         const prompt = `Write a short product description for: ${product}`;
@@ -34,6 +35,7 @@ app.post("/generate", async (req, res) => {
         });
 
     }
+
 });
 
 const PORT = process.env.PORT || 3000;
