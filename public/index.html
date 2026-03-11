@@ -3,7 +3,7 @@
 
 <head>
 
-    <title>AI Product Description Generator</title>
+    <title>AI Commerce Toolkit</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -12,50 +12,88 @@
         body {
             font-family: Arial;
             margin: 0;
-            background: #f0f2f5;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
+            background: #f4f6fb;
         }
 
         header {
-            background: #4a6cf7;
+            background: linear-gradient(90deg,#4a6cf7,#6f8cff);
             color: white;
-            padding: 15px;
+            padding: 40px 20px;
             text-align: center;
-            font-size: 20px;
         }
 
-        .chat {
-            flex: 1;
-            overflow-y: auto;
+            header h1 {
+                margin: 0;
+                font-size: 34px;
+            }
+
+            header p {
+                margin-top: 10px;
+                opacity: 0.9;
+            }
+
+        .tools {
+            display: grid;
+            grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
+            gap: 20px;
+            padding: 30px;
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .tool {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+
+            .tool h3 {
+                margin-top: 0;
+            }
+
+        .generator {
+            max-width: 900px;
+            margin: auto;
             padding: 20px;
         }
 
+        .chat {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            min-height: 200px;
+            margin-bottom: 20px;
+        }
+
         .message {
-            max-width: 70%;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            line-height: 1.5;
+            margin-bottom: 20px;
         }
 
         .user {
-            background: #4a6cf7;
-            color: white;
-            margin-left: auto;
+            font-weight: bold;
+            color: #4a6cf7;
         }
 
         .ai {
-            background: white;
-            border: 1px solid #ddd;
+            margin-top: 5px;
+            background: #f7f7f7;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .copy {
+            font-size: 12px;
+            color: #4a6cf7;
+            cursor: pointer;
+            margin-top: 5px;
         }
 
         .input-area {
             display: flex;
-            padding: 15px;
-            background: white;
-            border-top: 1px solid #ddd;
+            gap: 10px;
         }
 
         input {
@@ -67,11 +105,10 @@
         }
 
         button {
-            margin-left: 10px;
             padding: 12px 20px;
             background: #4a6cf7;
-            border: none;
             color: white;
+            border: none;
             border-radius: 6px;
             cursor: pointer;
         }
@@ -80,16 +117,11 @@
                 background: #3657e0;
             }
 
-        .copy-btn {
-            margin-top: 8px;
-            font-size: 12px;
-            cursor: pointer;
-            color: #4a6cf7;
-        }
-
-        .loading {
-            color: #888;
-            font-style: italic;
+        footer {
+            text-align: center;
+            padding: 30px;
+            font-size: 13px;
+            color: #777;
         }
     </style>
 
@@ -98,18 +130,61 @@
 <body>
 
     <header>
-        AI Product Description Generator
+
+        <h1>AI Commerce Toolkit</h1>
+
+        <p>
+            Generate product descriptions, marketing copy and social media captions using AI
+        </p>
+
     </header>
 
-    <div class="chat" id="chat"></div>
 
-    <div class="input-area">
+    <section class="tools">
 
-        <input id="product" placeholder="Type product name...">
+        <div class="tool">
+            <h3>Product Description</h3>
+            <p>Create detailed product listings for e-commerce</p>
+        </div>
 
-        <button onclick="generate()">Send</button>
+        <div class="tool">
+            <h3>SEO Title</h3>
+            <p>Generate optimized titles for search engines</p>
+        </div>
 
-    </div>
+        <div class="tool">
+            <h3>TikTok Caption</h3>
+            <p>Write viral captions for TikTok products</p>
+        </div>
+
+        <div class="tool">
+            <h3>Marketing Copy</h3>
+            <p>Create persuasive marketing text instantly</p>
+        </div>
+
+    </section>
+
+
+    <section class="generator">
+
+        <div class="chat" id="chat"></div>
+
+        <div class="input-area">
+
+            <input id="product" placeholder="Enter product name...">
+
+            <button onclick="generate()">Generate</button>
+
+        </div>
+
+    </section>
+
+    <footer>
+
+        Powered by AI • Built with Azure
+
+    </footer>
+
 
     <script>
 
@@ -121,21 +196,12 @@
 
             const chat = document.getElementById("chat");
 
-            const userMsg = document.createElement("div");
-            userMsg.className = "message user";
-            userMsg.innerText = product;
+            const msg = document.createElement("div");
+            msg.className = "message";
 
-            chat.appendChild(userMsg);
+            msg.innerHTML = `<div class="user">${product}</div>`;
 
-            const loading = document.createElement("div");
-            loading.className = "message ai loading";
-            loading.innerText = "AI is writing description...";
-
-            chat.appendChild(loading);
-
-            chat.scrollTop = chat.scrollHeight;
-
-            document.getElementById("product").value = "";
+            chat.appendChild(msg);
 
             const res = await fetch("/generate", {
                 method: "POST",
@@ -147,16 +213,12 @@
 
             const data = await res.json();
 
-            loading.remove();
-
-            const aiMsg = document.createElement("div");
-            aiMsg.className = "message ai";
-
-            const text = document.createElement("div");
-            text.innerText = data.text;
+            const ai = document.createElement("div");
+            ai.className = "ai";
+            ai.innerText = data.text;
 
             const copy = document.createElement("div");
-            copy.className = "copy-btn";
+            copy.className = "copy";
             copy.innerText = "Copy";
 
             copy.onclick = () => {
@@ -164,12 +226,12 @@
                 copy.innerText = "Copied!";
             };
 
-            aiMsg.appendChild(text);
-            aiMsg.appendChild(copy);
-
-            chat.appendChild(aiMsg);
+            msg.appendChild(ai);
+            msg.appendChild(copy);
 
             chat.scrollTop = chat.scrollHeight;
+
+            document.getElementById("product").value = "";
 
         }
 
