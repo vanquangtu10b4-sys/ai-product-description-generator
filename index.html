@@ -2,35 +2,50 @@
 <html>
 <head>
     <title>AI Product Description Generator</title>
+
     <style>
+
         body {
             font-family: Arial;
-            background: #f5f5f5;
+            background: #0f172a;
+            color: white;
             text-align: center;
-            padding: 50px;
+            padding: 60px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: auto;
+        }
+
+        h1 {
+            font-size: 40px;
+        }
+
+        .subtitle {
+            color: #cbd5e1;
+            margin-bottom: 40px;
         }
 
         .box {
             background: white;
+            color: black;
             padding: 30px;
-            width: 400px;
-            margin: auto;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
 
         input {
-            width: 80%;
-            padding: 10px;
+            width: 70%;
+            padding: 12px;
             margin: 10px;
         }
 
         button {
-            padding: 10px 20px;
-            background: #0078d4;
+            padding: 12px 25px;
+            background: #2563eb;
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 6px;
             cursor: pointer;
         }
 
@@ -38,48 +53,84 @@
             margin-top: 20px;
             font-weight: bold;
         }
+
+        .features {
+            margin-top: 60px;
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+        }
+
+        .feature {
+            max-width: 200px;
+        }
     </style>
 </head>
 
 <body>
 
-    <div class="box">
+    <div class="container">
 
-        <h2>AI Product Description Generator</h2>
+        <h1>AI Product Description Generator</h1>
 
-        <p>Enter a product name</p>
+        <p class="subtitle">
+            Generate high-converting ecommerce descriptions in seconds
+        </p>
 
-        <input id="product" placeholder="e.g leather jacket">
+        <div class="box">
 
-        <br>
+            <input id="product" placeholder="Enter product name">
 
-        <button onclick="generate()">Generate</button>
+            <br>
 
-        <p id="result"></p>
+            <button onclick="generate()">Generate Description</button>
+
+            <p id="result"></p>
+
+        </div>
+
+        <div class="features">
+
+            <div class="feature">
+                <h3>⚡ Instant</h3>
+                <p>Generate descriptions instantly using AI.</p>
+            </div>
+
+            <div class="feature">
+                <h3>🛒 Ecommerce</h3>
+                <p>Perfect for Shopify, Amazon and stores.</p>
+            </div>
+
+            <div class="feature">
+                <h3>🔎 SEO Ready</h3>
+                <p>Optimized descriptions for search engines.</p>
+            </div>
+
+        </div>
 
     </div>
 
     <script>
 
-async function generate(){
+        async function generate() {
 
-const product=document.getElementById("product").value
+            const product = document.getElementById("product").value
 
-const response=await fetch("/generate",{
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify({
-product:product
-})
-})
+            const response = await fetch("/generate", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    product: product
+                })
+            })
 
-const data=await response.json()
+            const data = await response.json()
 
-document.getElementById("result").innerText=data.description
+            document.getElementById("result").innerText = data.description
 
-}
+        }
 
     </script>
 

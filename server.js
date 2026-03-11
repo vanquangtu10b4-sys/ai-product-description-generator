@@ -16,6 +16,18 @@ app.post("/generate", (req, res) => {
     })
 
 })
+app.post("/generate-seo", (req, res) => {
+
+    const product = req.body.product
+
+    const description = `Buy the best ${product} online. Premium quality ${product} designed for modern lifestyle and optimized for ecommerce SEO.`
+
+    res.json({
+        product,
+        description
+    })
+
+})
 
 const PORT = process.env.PORT || 8080
 

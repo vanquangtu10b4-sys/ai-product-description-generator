@@ -1,9 +1,29 @@
-AI Product Description Generator
+# AI Product Description Generator
 
-This project provides an API that generates product
-descriptions for e-commerce stores.
+Generate high converting ecommerce descriptions using AI.
 
-Features
-- Simple API
-- Product description generator
-- Designed for e-commerce platforms
+## Features
+
+- AI product description generator
+- SEO optimized descriptions
+- REST API
+- Cloud deployment
+
+## Demo
+
+Live Demo:
+https://your-azure-app.azurewebsites.net
+
+## API
+
+POST /generate
+
+{
+ "product":"leather jacket"
+}
+
+Response
+
+{
+ "description":"Premium leather jacket designed for comfort and modern style."
+}
