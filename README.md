@@ -27,3 +27,9 @@ Response
 {
  "description":"Premium leather jacket designed for comfort and modern style."
 }
+## Roadmap
+
+- AI description generator
+- Shopify integration
+- Amazon listing generator
+- Chrome extension

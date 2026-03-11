@@ -28,6 +28,18 @@ app.post("/generate-seo", (req, res) => {
     })
 
 })
+app.post("/generate-amazon", (req, res) => {
+
+    const product = req.body.product
+
+    const description = `High-quality ${product} perfect for Amazon sellers. Designed for durability, comfort and premium performance.`
+
+    res.json({
+        product,
+        description
+    })
+
+})
 
 const PORT = process.env.PORT || 8080
 
